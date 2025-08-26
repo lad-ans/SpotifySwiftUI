@@ -15,21 +15,21 @@ struct TabBar: View {
     var body: some View {
         Spacer()
             .frame(height: 70)
-            .blur(radius: 4.6)
             .background(LinearGradient(
                 gradient: Gradient(
                     stops: [
-                        .init(color: .spotifyBlack.opacity(0.0), location: 0),
-                        .init(color: .spotifyBlack.opacity(0.4), location: 0.4),
-                        .init(color: .spotifyBlack.opacity(0.6), location: 0.6),
-                        .init(color: .spotifyBlack.opacity(0.7), location: 0.7),
-                        .init(color: .spotifyBlack.opacity(0.8), location: 0.8),
-                        .init(color: .spotifyBlack.opacity(1.0), location: 1.0),
+                        .init(color: .spotifyBlack.opacity(0.0), location: 0.0),
+                        .init(color: .spotifyBlack.opacity(0.1), location: 0.1),
+                        .init(color: .spotifyBlack.opacity(0.9), location: 0.8),
+                        .init(color: .spotifyBlack.opacity(1), location: 0.9),
+                        .init(color: .spotifyBlack.opacity(1), location: 1),
                     ],
                 ),
                 startPoint: .top,
-                endPoint: .bottom
+                endPoint: .bottom,
             ))
+            .blur(radius: 0.9)
+            .shadow(color: .spotifyBlack, radius: 0.0)
             .overlay {
                 HStack {
                     ForEach(tabItems, id: \.self) { tab in
@@ -54,7 +54,13 @@ struct TabBar: View {
 }
 
 #Preview {
-    @Previewable @State var selected: SpotifyTabItem = .home
-    @Previewable @Namespace var animation
-    TabBar(animation: animation, selected: $selected, tabItems: SpotifyTabItem.allCases)
+    ZStack(alignment: .bottom) {
+        TabBar(
+            animation: Namespace().wrappedValue,
+            selected: .constant(.home),
+            tabItems: SpotifyTabItem.allCases,
+        )
+    }
+    .frame(maxHeight: .infinity, alignment: .bottom)
+    .background(Color.white.ignoresSafeArea())
 }

@@ -35,13 +35,12 @@ struct SplashView<Content: View, Title: View, Logo: View>: View {
     }
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .center) {
             content
             
             ZStack {
                 if !backgroundAnimation {
                     Color.spotifyBlack
-                        .background(.spotifyBlack)
                         .overlay {
                             if !titleAnimation {
                                 titleView
@@ -61,6 +60,7 @@ struct SplashView<Content: View, Title: View, Logo: View>: View {
         logo
             .matchedGeometryEffect(id: "LOGO", in: animation)
             .frame(width: logoSize.width, height: logoSize.height)
+            .offset(y: -7)
     }
     
     var titleView: some View {
@@ -76,7 +76,7 @@ struct SplashView<Content: View, Title: View, Logo: View>: View {
             
             withAnimation(
                 .interactiveSpring(
-                    response: 0.6,
+                    response: 0.3,
                     dampingFraction: 1,
                     blendDuration: 1,
                 ),

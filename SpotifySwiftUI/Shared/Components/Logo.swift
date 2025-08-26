@@ -14,17 +14,19 @@ struct Logo: View {
         Button {
             onPressed()
         } label: {
-            Circle()
-                .fill(.spotifyGrey)
-                .overlay(
-                    Image("Logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                )
+            Image("Logo")
+                .resizable()
+                .scaledToFill()
+                .clipShape(Circle())
         }
     }
 }
 
 #Preview {
-    Logo() {}
+    ZStack {
+        Color.spotifyBlack.ignoresSafeArea()
+        
+        Logo() {}
+            .frame(width: 128, height: 128)
+    }
 }
