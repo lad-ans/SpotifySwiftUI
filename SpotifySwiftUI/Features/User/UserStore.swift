@@ -18,8 +18,13 @@ class UserStore: ObservableObject {
     }
     
     private func getUser() async {
-        do {
-            currentUser = try await DatabaseHelper().getUsers()[1]
-        } catch {}
+        let (error, result) = await Service().getUsers()
+        
+        if let error = error {
+            print("Failed to fetch users: \(error.message)")
+        } else if let data = result {
+            currentUser = data.users[3]
+            print("User gotten... \(currentUser!.firstName)")
+        }
     }
 }
