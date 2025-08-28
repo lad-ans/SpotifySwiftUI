@@ -16,10 +16,6 @@ extension View {
     func relativeSize(width: Double?, height: Double?) -> some View {
         self.modifier(RelativeFrameModifier(widthPercent: width, heightPercent: height))
     }
-    
-    func getRect() -> CGRect {
-        UIScreen.main.bounds
-    }
 }
 
 struct TileModifier: ViewModifier {

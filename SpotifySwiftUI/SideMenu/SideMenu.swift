@@ -9,85 +9,84 @@ import SwiftUI
 
 struct SideMenu: View {
     @Binding var showMenu: Bool
+    let geometry: GeometryProxy
     @EnvironmentObject var userStore: UserStore
     
     var body: some View {
-        ZStack {
-            Color.spotifyBlack
-                .ignoresSafeArea()
+        ScrollView(showsIndicators: false) {
+            Spacer()
+                .frame(height: 30 + geometry.safeAreaInsets.top)
             
-            VStack(alignment: .leading) {
-                VStack(alignment: .leading, spacing: 14) {
-                    AsyncImage(url: URL(string: userStore.currentUser?.image ?? Constants.randomImage))
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 65, height: 65)
-                        .clipShape(Circle())
-                    
-                    Text(userStore.currentUser?.firstName ?? "--")
-                        .font(.title2.bold())
-                        .foregroundStyle(.spotifyWhite)
-                    
-                    Text("@\(userStore.currentUser?.username ?? "--")")
-                        .font(.callout)
-                        .foregroundStyle(.spotifyLightGrey)
-                    
-                    HStack(spacing: 12) {
-                        Button {
-                            
-                        } label: {
-                            Label {
-                                Text("Followers")
-                                    .font(.callout)
-                            } icon: {
-                                Text("189")
-                                    .font(.callout)
-                                    .fontWeight(.bold)
-                            }
-                        }
-                        
-                        Button {
-                            
-                        } label: {
-                            Label {
-                                Text("Following")
-                                    .font(.callout)
-                            } icon: {
-                                Text("1.2 M")
-                                    .font(.callout)
-                                    .fontWeight(.bold)
-                            }
-                        }
-                    }
+            VStack(alignment: .leading, spacing: 14) {
+                AsyncImage(url: URL(string: userStore.currentUser?.image ?? Constants.randomImage))
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 65, height: 65)
+                    .clipShape(Circle())
+                
+                Text(userStore.currentUser?.firstName ?? "--")
+                    .font(.title2.bold())
                     .foregroundStyle(.spotifyWhite)
-                }
-                .padding(.horizontal)
-                .padding(.leading)
                 
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 45) {
-                        TabButton(title: "Profile", image: "person")
+                Text("@\(userStore.currentUser?.username ?? "--")")
+                    .font(.callout)
+                    .foregroundStyle(.spotifyLightGrey)
+                
+                HStack(spacing: 12) {
+                    Button {
                         
-                        TabButton(title: "Lists", image: "list.bullet.rectangle")
-                        
-                        TabButton(title: "Bookmarks", image: "bookmark")
-                        
-                        TabButton(title: "Purchases", image: "cart")
-                        
-                        TabButton(title: "Monetization", image: "dollarsign")
+                    } label: {
+                        Label {
+                            Text("Followers")
+                                .font(.callout)
+                        } icon: {
+                            Text("189")
+                                .font(.callout)
+                                .fontWeight(.bold)
+                        }
                     }
-                    .padding()
-                    .padding(.leading)
-                    .padding(.top, 35)
+                    
+                    Button {
+                        
+                    } label: {
+                        Label {
+                            Text("Following")
+                                .font(.callout)
+                        } icon: {
+                            Text("1.2 M")
+                                .font(.callout)
+                                .fontWeight(.bold)
+                        }
+                    }
                 }
+                .foregroundStyle(.spotifyWhite)
+            }
+            .padding(.bottom, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Divider()
+                .background(.spotifyGrey)
+            
+            VStack(alignment: .leading, spacing: 30) {
+                TabButton(title: "Profile", image: "person")
                 
+                TabButton(title: "Lists", image: "list.bullet.rectangle")
+                
+                TabButton(title: "Bookmarks", image: "bookmark")
+                
+                TabButton(title: "Purchases", image: "cart")
+                
+                TabButton(title: "Monetization", image: "dollarsign")
+            }
+            .padding(.top, 20)
+            
+            VStack(alignment: .leading, spacing: 14) {
                 Spacer()
                 
                 Divider()
                     .background(.spotifyGrey)
                 
                 TabButton(title: "Spotify Ads", image: "square.and.arrow.up")
-                    .padding()
-                    .padding(.leading)
+                    .padding(.vertical, 10)
                 
                 Divider()
                     .background(.spotifyGrey)
@@ -96,8 +95,7 @@ struct SideMenu: View {
                     
                 }
                 .foregroundStyle(.spotifyWhite)
-                .padding()
-                .padding(.leading)
+                .padding(.vertical, 10)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Divider()
@@ -127,20 +125,15 @@ struct SideMenu: View {
                     }
                 }
                 .foregroundStyle(.spotifyGreen)
-                .padding()
-                .padding([.leading, .trailing])
+                .padding([.vertical, .trailing])
             }
-            .padding(.vertical)
-            .background(
-                Color.spotifyDarkGrey
-                    .ignoresSafeArea(.container, edges: .vertical)
-            )
-            .frame(maxWidth: sideBarWidth)
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.horizontal, geometry.safeAreaInsets.leading + 20)
+        .ignoresSafeArea(.container, edges: .horizontal)
+        .background(Color.spotifyDarkGrey)
+        .frame(maxWidth: geometry.sideMenuWidth, alignment: .leading)
     }
     
-    @ViewBuilder
     func TabButton(
         title: String,
         image: String,
@@ -165,8 +158,11 @@ struct SideMenu: View {
 }
 
 #Preview {
-    @Previewable @State var showMenu = true
-    
-    SideMenu(showMenu: $showMenu)
+    GeometryReader { geometry in
+        SideMenu(
+            showMenu: .constant(false),
+            geometry: geometry,
+        )
         .environmentObject(UserStore())
+    }
 }

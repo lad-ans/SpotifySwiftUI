@@ -19,8 +19,8 @@ struct ResizableHeader<Header: View, Content: View>: View {
     @State private var offsetaY: CGFloat = 0
     
     var body: some View {
-        GeometryReader {
-            let safeArea = ignoreSafeAreaTop ? $0.safeAreaInsets : .init()
+        GeometryReader { geometry in
+            let safeArea = ignoreSafeAreaTop ? geometry.safeAreaInsets : .init()
             
             ScrollView {
                 LazyVStack(pinnedViews: [.sectionHeaders]) {

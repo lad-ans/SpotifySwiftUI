@@ -43,33 +43,25 @@ struct SplashView<Content: View, Title: View, Logo: View>: View {
                     Color.spotifyBlack
                         .overlay {
                             if !titleAnimation {
-                                titleView
+                                title
+                                    .offset(y: titleAnimation ? 0 : 110)
                             }
                             
                             if !endAnimation.wrappedValue {
-                                logoView
+                                logo
+                                    .matchedGeometryEffect(id: "LOGO", in: animation)
+                                    .frame(width: logoSize.width, height: logoSize.height)
                             }
                         }
                 }
             }
         }
+        .ignoresSafeArea()
         .onAppear(perform: onAppear)
     }
     
-    var logoView: some View {
-        logo
-            .matchedGeometryEffect(id: "LOGO", in: animation)
-            .frame(width: logoSize.width, height: logoSize.height)
-            .offset(y: -7)
-    }
-    
-    var titleView: some View {
-        title
-            .offset(y: titleAnimation ? 0 : 110)
-    }
-    
     private func onAppear() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             withAnimation(.spring) {
                 titleAnimation.toggle()
             }

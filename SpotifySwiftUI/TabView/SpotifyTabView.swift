@@ -15,29 +15,29 @@ struct SpotifyTabView<Content: View>: View {
     @Namespace var animation
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            ZStack { ZStack(alignment: .leading, content: content) }
-            .frame(width: getRect().width)
-            .frame(maxHeight: .infinity)
-            .animation(nil, value: selected.wrappedValue)
-            .ignoresSafeArea()
-            
-            TabBar(
-                animation: animation,
-                selected: selected,
-                tabItems: tabItems,
-            )
+        GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+                ZStack { ZStack(alignment: .leading, content: content) }
+                    .frame(width: geometry.width)
+                    .frame(maxHeight: .infinity)
+                    .animation(nil, value: selected.wrappedValue)
+                    .ignoresSafeArea()
+                
+                TabBar(
+                    animation: animation,
+                    selected: selected,
+                    tabItems: tabItems,
+                )
+            }
+            .background(Color.spotifyBlack.ignoresSafeArea())
         }
-        .background(Color.spotifyBlack.ignoresSafeArea())
     }
 }
 
 #Preview {
-    @Previewable @State var selected = SpotifyTabItem.home
-    
     SpotifyTabView(
         tabItems: SpotifyTabItem.allCases,
-        selected: $selected,
+        selected: .constant(.home),
     ) {
         Text("Screen")
             .foregroundStyle(.white)

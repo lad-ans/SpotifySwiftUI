@@ -8,23 +8,23 @@
 import SwiftUI
 
 extension BaseView {
-    func onChange() {
+    func onChange(sideMenuWidth: CGFloat) {
         let newOffset = gestureOffset + oldOffset
         offset = gestureOffset != 0
-        ? (newOffset < 0 ? 0 : (newOffset > sideBarWidth ? sideBarWidth : newOffset))
+        ? (newOffset < 0 ? 0 : (newOffset > sideMenuWidth ? sideMenuWidth : newOffset))
         : offset
     }
     
-    func onEnd(value: DragGesture.Value) {
+    func onEnd(value: DragGesture.Value, sideMenuWidth: CGFloat) {
         let velocityX = value.velocity.width
         let translation = value.translation.width
         
-        let baseDistance: CGFloat = sideBarWidth
+        let baseDistance: CGFloat = sideMenuWidth
         let minDuration = 0.15
         let maxDuration = 0.4
         let computedDuration = min(max(Double(1.0 - abs(translation) / baseDistance) * maxDuration, minDuration), maxDuration)
         
-        let dragThreshold = sideBarWidth * 0.4
+        let dragThreshold = sideMenuWidth * 0.4
         let swipeReverseThreshold = velocityX < -800
         let swipeForwardThreshold = velocityX > 800
         
@@ -33,13 +33,11 @@ extension BaseView {
         
         withAnimation(.easeOut(duration: computedDuration)) {
             if isOpenThresholdReached || isCloseThresholdUnreached {
-                offset = sideBarWidth
+                offset = sideMenuWidth
                 showMenu = true
-                print("AQUI1")
             } else {
                 offset = 0
                 showMenu = false
-                print("AQUI2")
             }
             oldOffset = offset
         }

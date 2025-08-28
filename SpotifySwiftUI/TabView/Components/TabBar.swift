@@ -46,7 +46,6 @@ struct TabBar: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .frame(maxWidth: getRect().width)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .ignoresSafeArea(.container, edges: .bottom)

@@ -20,14 +20,14 @@ struct BaseView: View {
     @EnvironmentObject private var productStore: ProductStore
     
     var body: some View {
-        SplashView(
-            logoSize: CGSize(width: 128, height: 128),
-            endAnimation: $endAnimation,
-            animation: animation,
-        ) {
-            GeometryReader { _ in
+        GeometryReader { geometry in
+            SplashView(
+                logoSize: CGSize(width: 128, height: 128),
+                endAnimation: $endAnimation,
+                animation: animation,
+            ) {
                 HStack(spacing: .zero) {
-                    SideMenu(showMenu: $showMenu)
+                    SideMenu(showMenu: $showMenu, geometry: geometry)
                     
                     SpotifyTabView(
                         tabItems: SpotifyTabItem.allCases,
@@ -69,6 +69,7 @@ struct BaseView: View {
                         onReset: resetSideMenuState,
                     )
                 }
+                .padding(.bottom, geometry.safeAreaInsets.bottom)
                 .sideMenuPreferences(
                     oldOffset: $oldOffset,
                     offset: $offset,
@@ -77,13 +78,13 @@ struct BaseView: View {
                     onChange: onChange,
                     gestureOffset: $gestureOffset,
                 )
+            } title: {
+                Text("Spotify")
+                    .font(.system(size: 36).bold())
+                    .foregroundStyle(.spotifyWhite)
+            } logo: {
+                Logo(onPressed: {})
             }
-        } title: {
-            Text("Spotify")
-                .font(.system(size: 36).bold())
-                .foregroundStyle(.spotifyWhite)
-        } logo: {
-            Logo(onPressed: {})
         }
     }
 }
