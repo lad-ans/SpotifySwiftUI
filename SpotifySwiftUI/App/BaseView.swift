@@ -16,6 +16,7 @@ struct BaseView: View {
     
     /// Splash animation states
     @State var endAnimation = false
+    @State var showTabBar = true
     @Namespace var animation
     @EnvironmentObject private var productStore: ProductStore
     
@@ -32,6 +33,7 @@ struct BaseView: View {
                     SpotifyTabView(
                         tabItems: SpotifyTabItem.allCases,
                         selected: $selected,
+                        showTabBar: $showTabBar,
                     ) {
                         NavigationStack {
                             HomeView(
@@ -47,11 +49,15 @@ struct BaseView: View {
                             .opacity(selected == .home ? 1 : 0)
                         }
                         
+                        ReelView(
+                            geometry: geometry,
+                            showTabBar: $showTabBar,
+                            selected: $selected,
+                        )
+                        .opacity(selected == .reels ? 1 : 0)
+                        
                         SearchView()
                             .opacity(selected == .search ? 1 : 0)
-                        
-                        LibraryView()
-                            .opacity(selected == .library ? 1 : 0)
                         
                         PremiumView()
                             .opacity(selected == .premium ? 1 : 0)

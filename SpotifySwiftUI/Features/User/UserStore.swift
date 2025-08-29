@@ -24,7 +24,6 @@ class UserStore: ObservableObject {
             print("Failed to fetch users: \(error.message)")
         } else if let data = result {
             currentUser = data.users[3]
-            print("User gotten... \(currentUser!.firstName)")
         }
     }
 }

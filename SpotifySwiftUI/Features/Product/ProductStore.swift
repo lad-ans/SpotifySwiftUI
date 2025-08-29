@@ -21,7 +21,6 @@ class ProductStore: ObservableObject {
         let (error, result) = await Service().getProdcuts()
         if let productsArray = result {
             products = Array(productsArray.products.prefix(8))
-            print("Products gotten... \(productsArray)")
         } else if let error = error {
             print("Failed to fetch products: \(error.message)")
         }

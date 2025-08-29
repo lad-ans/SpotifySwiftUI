@@ -24,8 +24,7 @@ struct NowPlayingControlBar: View {
                 .frame(width: 40, height: 50)
                 
                 Button {
-                    print("Add to playlist clicked!")
-                    logger("Add to playlist clicked!")
+
                 } label: {
                     Image(systemName: "plus.circle")
                         .font(.system(size: 28))

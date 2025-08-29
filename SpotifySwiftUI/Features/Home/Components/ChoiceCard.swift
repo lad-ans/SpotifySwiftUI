@@ -42,8 +42,7 @@ struct ChoiceCard: View {
                             Spacer()
                             
                             Button {
-                                print("ellipsis clicked!!!")
-                                logg("ellipsis clicked!!!")
+                                
                             } label: {
                                 Image(systemName: "ellipsis")
                                     .font(.system(size: 20))

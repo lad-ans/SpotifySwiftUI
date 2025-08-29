@@ -12,6 +12,7 @@ struct NativeTabView<LogoView: View>: View {
     @State var searchKey: String = ""
     @Binding var endAnimation: Bool
     var animation: Namespace.ID
+    let geometry: GeometryProxy
     let logo: () -> LogoView
             
     var body: some View {
@@ -30,11 +31,15 @@ struct NativeTabView<LogoView: View>: View {
                 }
                 
                 Tab(
-                    SpotifyTabItem.library.title,
-                    systemImage: SpotifyTabItem.library.icon,
-                    value: .library
+                    SpotifyTabItem.reels.title,
+                    systemImage: SpotifyTabItem.reels.icon,
+                    value: .reels
                 ) {
-                    LibraryView()
+                    ReelView(
+                        geometry: geometry,
+                        showTabBar: .constant(true),
+                        selected: .constant(.home),
+                    )
                 }
                 
                 Tab(
@@ -67,22 +72,27 @@ extension NativeTabView {
         selected: SpotifyTabItem = .home,
         endAnimation: Binding<Bool>,
         animation: Namespace.ID,
-        @ViewBuilder logo: @escaping () -> LogoView
+        geometry: GeometryProxy,
+        @ViewBuilder logo: @escaping () -> LogoView,
     ) {
         self._selected = State(initialValue: selected)
         self._endAnimation = endAnimation
         self.animation = animation
         self.logo = logo
+        self.geometry = geometry
     }
 }
 
 #Preview {
-    NativeTabView(
-        selected: .home,
-        endAnimation: .constant(false),
-        animation: Namespace().wrappedValue
-    ) {
-        Logo(onPressed: {})
+    GeometryReader { geometry in
+        NativeTabView(
+            selected: .home,
+            endAnimation: .constant(false),
+            animation: Namespace().wrappedValue,
+            geometry: geometry,
+        ) {
+            Logo(onPressed: {})
+        }
+        .environmentObject(ProductStore())
     }
-    .environmentObject(ProductStore())
 }

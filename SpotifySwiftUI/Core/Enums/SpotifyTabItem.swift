@@ -9,16 +9,16 @@ import Foundation
 
 enum SpotifyTabItem: String, CaseIterable {
     case home
+    case reels
     case search
-    case library
     case premium
     case create
 
     var icon: String {
         switch self {
         case .home: return "house.fill"
+        case .reels: return "play.diamond"
         case .search: return "magnifyingglass"
-        case .library: return "music.note.list"
         case .premium: return "headphones.dots"
         case .create: return "plus"
         }
@@ -28,7 +28,7 @@ enum SpotifyTabItem: String, CaseIterable {
         switch self {
         case .home: return "Home"
         case .search: return "Search"
-        case .library: return "Library"
+        case .reels: return "Reels"
         case .premium: return "Premium"
         case .create: return "Create"
         }

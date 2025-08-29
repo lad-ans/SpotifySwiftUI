@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SpotifyTabView<Content: View>: View {
     let tabItems: [SpotifyTabItem]
-    var selected: Binding<SpotifyTabItem>
+    @Binding var selected: SpotifyTabItem
+    @Binding var showTabBar: Bool
     @ViewBuilder var content: () -> Content
     
     @Namespace var animation
@@ -20,16 +21,23 @@ struct SpotifyTabView<Content: View>: View {
                 ZStack { ZStack(alignment: .leading, content: content) }
                     .frame(width: geometry.width)
                     .frame(maxHeight: .infinity)
-                    .animation(nil, value: selected.wrappedValue)
+                    .animation(nil, value: selected)
                     .ignoresSafeArea()
                 
-                TabBar(
-                    animation: animation,
-                    selected: selected,
-                    tabItems: tabItems,
-                )
+                if showTabBar || selected != .reels {
+                    TabBar(
+                        animation: animation,
+                        selected: $selected,
+                        tabItems: tabItems,
+                    )
+                }
             }
             .background(Color.spotifyBlack.ignoresSafeArea())
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    showTabBar = false
+                }
+            }
         }
     }
 }
@@ -38,6 +46,7 @@ struct SpotifyTabView<Content: View>: View {
     SpotifyTabView(
         tabItems: SpotifyTabItem.allCases,
         selected: .constant(.home),
+        showTabBar: .constant(true)
     ) {
         Text("Screen")
             .foregroundStyle(.white)
