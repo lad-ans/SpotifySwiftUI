@@ -30,7 +30,7 @@ This project demonstrates modern SwiftUI techniques, reusable components, smooth
 
 ## 📱 Screenshots
 
-| Splash Screen | Home Screnn | Detail Screen | Side Menu Section | Reels Menu |
+| Splash Screen | Home Screen | Detail Screen | Side Menu Section | Reels Menu |
 | ------------- | ----------- | ------------- | ----------------- | ---------- |
 | ![Splash](./splash.png) | ![Home](./home.png) | ![Detail](./detail.png) | ![SideMenu](./side-menu.png) | ![Reels](./reels.png) |
 
