@@ -10,6 +10,8 @@ import SwiftUI
 struct ReelDetail: View {
     let geometry: GeometryProxy
     @Binding var reel: Reel
+    let onMessage: () -> Void
+    let onPaperplane: () -> Void
         
     var body: some View {
         HStack(alignment: .bottom, spacing: 10) {
@@ -40,9 +42,9 @@ struct ReelDetail: View {
                 .symbolEffect(.bounce, value: reel.isLiked)
                 .foregroundStyle(reel.isLiked ? .red : .spotifyWhite)
                 
-                Button("", systemImage: "message") {}
+                Button("", systemImage: "message", action: onMessage)
                 
-                Button("", systemImage: "paperplane") {}
+                Button("", systemImage: "paperplane", action: onPaperplane)
                 
                 Button("", systemImage: "ellipsis") {}
             }

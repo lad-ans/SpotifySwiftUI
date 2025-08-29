@@ -7,6 +7,7 @@ struct ReelView: View {
     
     @State private var reels: [Reel] = reelsData
     @State private var likedCounter: [Like] = []
+    @State private var toasts: [Toast] = []
     
     var body: some View {
         ScrollView(.vertical) {
@@ -20,7 +21,16 @@ struct ReelView: View {
                         selected: $selected,
                     )
                     .overlay(alignment: .bottom) {
-                        ReelDetail(geometry: geometry, reel: $reel)
+                        ReelDetail(
+                            geometry: geometry,
+                            reel: $reel,
+                            onMessage: {
+                                $toasts.showToast("Message sent")
+                            },
+                            onPaperplane: {
+                                $toasts.showToast("Content shared")
+                            }
+                        )
                     }
                     .frame(maxWidth: .infinity)
                     .containerRelativeFrame(
@@ -68,6 +78,7 @@ struct ReelView: View {
                 .padding(.top, geometry.safeAreaInsets.top + 25)
                 .padding(.trailing, 15)
         }
+        .interactiveToast($toasts)
         .environment(\.colorScheme, .dark)
     }
 }
