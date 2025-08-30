@@ -5,6 +5,7 @@
 //  Created by ladans on 30/08/25.
 //
 
+
 import SwiftUI
 
 extension View {
@@ -63,7 +64,7 @@ fileprivate struct PopViewHelper<ViewContent: View>: ViewModifier {
                         .presentationBackground(.clear)
                         .task {
                             guard !animateView else { return }
-                            withAnimation(.bouncy(duration: 0.4, extraBounce: 0.05)) {
+                            withAnimation(.snappy(duration: 0.45, extraBounce: 0.05)) {
                                 self.animateView = true
                             }
                         }

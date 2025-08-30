@@ -8,7 +8,7 @@ import SwiftUI
 
 struct AlertContent: View {
     @Binding var show: Bool
-    let title: String
+    var title: AttributedString
     let onTryAgain: () -> ()
     
     var body: some View {

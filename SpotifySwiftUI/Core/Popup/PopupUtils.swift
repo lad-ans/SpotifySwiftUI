@@ -34,5 +34,5 @@ var screenSize: CGSize {
 }
 
 struct Config {
-    var backgroundColor: Color = Color.spotifyWhite.opacity(0.04)
+    var backgroundColor: Color = Color.spotifyBlack.opacity(0.6)
 }

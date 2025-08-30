@@ -10,8 +10,10 @@ import SwiftUI
 struct SideMenu: View {
     @Binding var showMenu: Bool
     let geometry: GeometryProxy
+    
     @EnvironmentObject var userStore: UserStore
     @State var showAlert: Bool = false
+    @State var selectedTitle: String?
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -68,15 +70,32 @@ struct SideMenu: View {
                 .background(.spotifyGrey)
             
             VStack(alignment: .leading, spacing: 30) {
-                TabButton(title: "Profile", image: "person")
+                TabButton(
+                    title: "Profile",
+                    selectedTitle: $selectedTitle,
+                    image: "person",
+                    showAlert: $showAlert
+                ) {
+                    selectedTitle = "Profile"
+                }
                 
-                TabButton(title: "Lists", image: "list.bullet.rectangle")
+                TabButton(
+                    title: "Playlists",
+                    selectedTitle: $selectedTitle,
+                    image: "list.bullet.rectangle",
+                    showAlert: $showAlert
+                ) {
+                    selectedTitle = "Playlists"
+                }
                 
-                TabButton(title: "Bookmarks", image: "bookmark")
-                
-                TabButton(title: "Purchases", image: "cart")
-                
-                TabButton(title: "Monetization", image: "dollarsign")
+                TabButton(
+                    title: "Buy Premium",
+                    selectedTitle: $selectedTitle,
+                    image: "cart",
+                    showAlert: $showAlert
+                ) {
+                    selectedTitle = "Buy Premium"
+                }
             }
             .padding(.top, 20)
             
@@ -86,8 +105,15 @@ struct SideMenu: View {
                 Divider()
                     .background(.spotifyGrey)
                 
-                TabButton(title: "Spotify Ads", image: "square.and.arrow.up")
-                    .padding(.vertical, 10)
+                TabButton(
+                    title: "Spotify Ads",
+                    selectedTitle: $selectedTitle,
+                    image: "square.and.arrow.up",
+                    showAlert: $showAlert,
+                ) {
+                    selectedTitle = "Spotify Ads"
+                }
+                .padding(.vertical, 10)
                 
                 Divider()
                     .background(.spotifyGrey)
@@ -132,16 +158,22 @@ struct SideMenu: View {
         .padding(.horizontal, geometry.safeAreaInsets.leading + 20)
         .ignoresSafeArea(.container, edges: .horizontal)
         .background(Color.spotifyDarkGrey)
-        .frame(maxWidth: geometry.sideMenuWidth, alignment: .leading)
+        .frame(maxWidth: geometry.sideMenuWidth, alignment: .topLeading)
     }
+}
+
+struct TabButton: View {
+    var title: String
+    @Binding var selectedTitle: String?
+    var image: String
+    var size: CGFloat? = nil
+    @Binding var showAlert: Bool
+    var onPressed: () -> ()
     
-    func TabButton(
-        title: String,
-        image: String,
-        size: CGFloat? = nil,
-    ) -> some View {
+    var body: some View {
         Button {
             showAlert.toggle()
+            onPressed()
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: image)
@@ -158,13 +190,24 @@ struct SideMenu: View {
         .popView(isPresented: $showAlert) {
             
         } content: {
-            AlertContent(show: $showAlert, title: title) {
+            AlertContent(
+                show: $showAlert,
+                title: selectedMenu(selectedTitle ?? "--")
+            ) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     showAlert = true
                 }
             }
         }
     }
+}
+
+func selectedMenu(_ value: String) -> AttributedString {
+    var item = AttributedString(value)
+    item.foregroundColor = .spotifyWhite
+    item.font = .system(size: 16, weight: .bold)
+    
+    return item
 }
 
 #Preview {
