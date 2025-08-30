@@ -2,7 +2,7 @@
 //  SideMenu.swift
 //  SpotifyClone
 //
-//  Created by ladans on 23/08/25.
+//  Created by  on 23/08/25.
 //
 
 import SwiftUI
@@ -11,6 +11,7 @@ struct SideMenu: View {
     @Binding var showMenu: Bool
     let geometry: GeometryProxy
     @EnvironmentObject var userStore: UserStore
+    @State var showAlert: Bool = false
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -140,7 +141,7 @@ struct SideMenu: View {
         size: CGFloat? = nil,
     ) -> some View {
         Button {
-            
+            showAlert.toggle()
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: image)
@@ -153,6 +154,15 @@ struct SideMenu: View {
             }
             .foregroundStyle(.spotifyWhite)
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .popView(isPresented: $showAlert) {
+            
+        } content: {
+            AlertContent(show: $showAlert, title: title) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    showAlert = true
+                }
+            }
         }
     }
 }
