@@ -21,7 +21,7 @@ struct ProductThumbnail: View {
                 .background(.spotifyDarkGrey)
 
             if showBadge {
-                Text("Mix do dia 3")
+                Text("Day 3 mix")
                     .font(.system(size: largeSize ? 25 : 14, weight: .semibold))
                     .foregroundStyle(backgroundColor.idealForegroundColor)
                     .padding(.vertical, largeSize ? 4 : 0)

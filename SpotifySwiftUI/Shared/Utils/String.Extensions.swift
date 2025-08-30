@@ -8,7 +8,7 @@
 import SwiftUI
 
 var madeFor: AttributedString {
-    var first = AttributedString("Feita para ")
+    var first = AttributedString("Made for ")
     first.foregroundColor = .spotifyLightGrey
     first.font = .callout
         
@@ -20,11 +20,11 @@ var madeFor: AttributedString {
 }
 
 var aboutRecommendationsAndShareImpact: AttributedString {
-    var first = AttributedString("Sobre ")
+    var first = AttributedString("About ")
     first.foregroundColor = .spotifyWhite
     first.font = .system(.callout, weight: .bold)
         
-    var second = AttributedString("recomendações e o impacto do Spotify")
+    var second = AttributedString("recommendation and Spotify impact")
     second.foregroundColor = .spotifyLightGrey
     second.font = .callout
     

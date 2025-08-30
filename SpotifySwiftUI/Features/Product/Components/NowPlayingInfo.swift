@@ -14,7 +14,7 @@ struct NowPlayingInfo: View {
     var body: some View {
         VStack(alignment: .leading, spacing: dynamicSpacing) {
             VStack(alignment: .leading, spacing: 10) {
-                Text("MOBBERS, Plutónio, Clean Boyz e mais")
+                Text("MOBBERS, Plutónio, Clean Boyz and more")
                     .foregroundStyle(.spotifyLightGrey)
                     .font(.callout)
                 
